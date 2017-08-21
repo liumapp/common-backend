@@ -1,180 +1,275 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.liumapp.admin.shiro.dao.SysPermissionMapper">
-  <resultMap id="BaseResultMap" type="com.liumapp.admin.shiro.model.SysPermission">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liumapp.admin.shiro.dao.SysPermissionDao" >
+  <resultMap id="BaseResultMap" type="com.liumapp.admin.shiro.model.SysPermission" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="generatemenu" property="generatemenu" jdbcType="VARCHAR" />
+    <result column="zindex" property="zindex" jdbcType="INTEGER" />
+    <result column="fid" property="fid" jdbcType="BIGINT" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, url, name
-  </sql>
-  <select id="selectByExample" parameterType="com.liumapp.admin.shiro.model.SysPermissionExample" resultMap="BaseResultMap">
+  <select id="SelectAllPer" parameterType="java.util.HashMap" resultMap="BaseResultMap">
     select
-    <if test="distinct">
+    <include refid="Base_Column_List" />
+    from sys_permission
+    <where>
+      <if test="name != null and name != '' ">
+        <bind name="name" value="'%' + _parameter.name + '%'" />
+        name like #{name,jdbcType=VARCHAR}
+      </if>
+      <!-- <if test="type != null and name != '' ">
+      <bind name="type" value="'%' + _parameter.type + '%'" />
+       and `type` like #{type,jdbcType=VARCHAR}
+      </if> -->
+    </where>
+  </select>
+  <!--新增根据角色ID查询  -->
+  <select id="selectByRoleIds" resultMap="BaseResultMap">
+    Select  p.*
+    From sys_permission p, u_role_SysPermission rp
+    where p.id = rp.pid AND rp.rid in
+    <foreach item="roleId" index="index" collection="list" open="(" separator="," close=")">
+      #{roleId}
+    </foreach>
+  </select>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, name, code, url, generatemenu, zindex, fid
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.liumapp.admin.shiro.model.SysPermissionExample" >
+    select
+    <if test="distinct" >
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from sys_permission
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    id,name,code,url,generatemenu,zindex,fid
     from sys_permission
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sys_permission
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.liumapp.admin.shiro.model.SysPermissionExample">
+  <delete id="deleteByExample" parameterType="com.liumapp.admin.shiro.model.SysPermissionExample" >
     delete from sys_permission
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.liumapp.admin.shiro.model.SysPermission">
-    insert into sys_permission (id, url, name)
-    values (#{id,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.liumapp.admin.shiro.model.SysPermission" >
+    insert into sys_permission (id, name, code,
+    url, generatemenu, zindex,
+    fid)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+    #{url,jdbcType=VARCHAR}, #{generatemenu,jdbcType=VARCHAR}, #{zindex,jdbcType=INTEGER},
+    #{fid,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.liumapp.admin.shiro.model.SysPermission">
+  <insert id="insertSelective" parameterType="com.liumapp.admin.shiro.model.SysPermission" >
     insert into sys_permission
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="url != null">
-        url,
-      </if>
-      <if test="name != null">
+      <if test="name != null" >
         name,
       </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="generatemenu != null" >
+        generatemenu,
+      </if>
+      <if test="zindex != null" >
+        zindex,
+      </if>
+      <if test="fid != null" >
+        fid,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="url != null">
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="generatemenu != null" >
+        #{generatemenu,jdbcType=VARCHAR},
+      </if>
+      <if test="zindex != null" >
+        #{zindex,jdbcType=INTEGER},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.liumapp.admin.shiro.model.SysPermissionExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.liumapp.admin.shiro.model.SysPermissionExample" resultType="java.lang.Integer" >
     select count(*) from sys_permission
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map" >
     update sys_permission
-    <set>
-      <if test="record.id != null">
+    <set >
+      <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.url != null">
-        url = #{record.url,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null">
+      <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.generatemenu != null" >
+        generatemenu = #{record.generatemenu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zindex != null" >
+        zindex = #{record.zindex,jdbcType=INTEGER},
+      </if>
+      <if test="record.fid != null" >
+        fid = #{record.fid,jdbcType=BIGINT},
+      </if>
     </set>
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByExample" parameterType="map" >
     update sys_permission
     set id = #{record.id,jdbcType=BIGINT},
-      url = #{record.url,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR}
-    <if test="_parameter != null">
+    name = #{record.name,jdbcType=VARCHAR},
+    code = #{record.code,jdbcType=VARCHAR},
+    url = #{record.url,jdbcType=VARCHAR},
+    generatemenu = #{record.generatemenu,jdbcType=VARCHAR},
+    zindex = #{record.zindex,jdbcType=INTEGER},
+    fid = #{record.fid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.liumapp.admin.shiro.model.SysPermission">
+  <update id="updateByPrimaryKeySelective" parameterType="com.liumapp.admin.shiro.model.SysPermission" >
     update sys_permission
-    <set>
-      <if test="url != null">
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="generatemenu != null" >
+        generatemenu = #{generatemenu,jdbcType=VARCHAR},
+      </if>
+      <if test="zindex != null" >
+        zindex = #{zindex,jdbcType=INTEGER},
+      </if>
+      <if test="fid != null" >
+        fid = #{fid,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.liumapp.admin.shiro.model.SysPermission">
+  <update id="updateByPrimaryKey" parameterType="com.liumapp.admin.shiro.model.SysPermission" >
     update sys_permission
-    set url = #{url,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR}
+    set name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      generatemenu = #{generatemenu,jdbcType=VARCHAR},
+      zindex = #{zindex,jdbcType=INTEGER},
+      fid = #{fid,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

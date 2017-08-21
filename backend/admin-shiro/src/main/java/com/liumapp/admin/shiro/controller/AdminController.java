@@ -1,7 +1,11 @@
 package com.liumapp.admin.shiro.controller;
 
 import com.github.pagehelper.Page;
+import com.liumapp.admin.shiro.form.UserForm;
+import com.liumapp.admin.shiro.model.SysAdmin;
 import com.liumapp.admin.shiro.service.SysAdminService;
+import com.liumapp.common.result.AjaxResult;
+import com.liumapp.common.security.auth.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,7 +36,7 @@ public class AdminController {
 
     @PostMapping("/add")
     @ResponseBody()
-    public AjaxResult add(@Validated(CreateUser.class) UserForm userForm, BindingResult result) {
+    public AjaxResult add(@Validated(UserForm.CreateUser.class) UserForm userForm, BindingResult result) {
         AjaxResult rst = new AjaxResult();
         if(result.hasErrors()) {
             rst.setCode("error");
@@ -72,7 +76,7 @@ public class AdminController {
 
     @PostMapping("/edit/{id}")
     @ResponseBody()
-    public AjaxResult edit(@PathVariable(name="id") Long id,@Validated(EditUser.class) UserForm userForm, BindingResult result) {
+    public AjaxResult edit(@PathVariable(name="id") Long id, @Validated(UserForm.EditUser.class) UserForm userForm, BindingResult result) {
         AjaxResult rst = new AjaxResult();
         if(result.hasErrors()) {
             rst.setCode("error");

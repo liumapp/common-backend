@@ -15,7 +15,10 @@ public class SysAdmin {
 
     private Date lastLoginTime;
 
-    private Boolean status;
+    /**
+     * 1:有效，0:禁止登录
+     */
+    private Integer status;
 
     public Long getId() {
         return id;
@@ -65,11 +68,11 @@ public class SysAdmin {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }
