@@ -3,10 +3,14 @@ package com.liumapp.admin.shiro.dao;
 import com.liumapp.admin.shiro.model.SysPermission;
 import com.liumapp.admin.shiro.model.SysPermissionExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface SysPermissionMapper {
-    long countByExample(SysPermissionExample example);
+    List<SysPermission> selectByRoleIds(List<Long> roleIds);
+
+    int countByExample(SysPermissionExample example);
 
     int deleteByExample(SysPermissionExample example);
 
@@ -27,4 +31,6 @@ public interface SysPermissionMapper {
     int updateByPrimaryKeySelective(SysPermission record);
 
     int updateByPrimaryKey(SysPermission record);
+
+    List<SysPermission> SelectAllPer(Map<String, Object> params);
 }

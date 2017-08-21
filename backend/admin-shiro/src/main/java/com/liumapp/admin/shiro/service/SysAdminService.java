@@ -15,41 +15,22 @@ import java.util.Map;
  * E-mail:liumapp.com@gmail.com
  * home-page:http://www.liumapp.com
  */
-@Service
-@Transactional
-public class SysAdminService {
+public interface SysAdminService {
 
-    @Autowired
-    private SysAdminMapper adminMapper;
+    public List<SysAdmin> searchAll(Map<String, Object> user);
 
-    public List<SysAdmin> searchAll(Map<String, Object> user) {
-        PageHelper.startPage(1, 10);
-        return adminMapper.searchAll(user);
-    }
+    public SysAdmin findById(Long id);
 
-    public SysAdmin findById(Long id) {
-        return adminMapper.selectByPrimaryKey(id);
-    }
+    public SysAdmin findByUsername(String username);
 
-    public SysAdmin findByUsername(String username) {
-        return adminMapper.selectByUsername(username);
-    }
+    public int saveUser(SysAdmin user);
 
-    public int saveUser(SysAdmin user){
+    public int updateUser(SysAdmin user);
 
-        return adminMapper.insert(user);
-    }
+    public int batchDeleteByIds(Long[] ids);
 
-    public int updateUser(SysAdmin user) {
-        return adminMapper.updateByPrimaryKeySelective(user);
-    }
+    public int deleteUser(SysAdmin user);
 
-    public int batchDeleteByIds(Long[] ids){
-        return adminMapper.batchDeleteByIds(ids);
-    }
 
-    public int deleteUser(SysAdmin user) {
-        return adminMapper.deleteByPrimaryKey(user.getId());
-    }
 
 }

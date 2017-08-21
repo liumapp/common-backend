@@ -38,7 +38,6 @@ public class PermissionController {
         model.addAttribute("totalPages", Permission.getPages());
         model.addAttribute("pageNum", Permission.getPageNum());
         return "permission/list";
-
     }
 
     @RequestMapping("/add")
