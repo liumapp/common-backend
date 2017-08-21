@@ -2,11 +2,6 @@ package com.liumapp.admin.shiro.model;
 
 import java.util.Date;
 
-/**
- * Created by liumapp on 8/21/17 5:04 PM.
- * E-mail:liumapp.com@gmail.com
- * home-page:http://www.liumapp.com
- */
 public class SysAdmin {
     private Long id;
 
