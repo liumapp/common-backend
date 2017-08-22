@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.liumapp.admin.shiro.form.UserForm;
 import com.liumapp.admin.shiro.model.SysAdmin;
 import com.liumapp.admin.shiro.service.SysAdminService;
+import com.liumapp.admin.shiro.form.UserForm.CreateUser;
+import com.liumapp.admin.shiro.form.UserForm.EditUser;
 import com.liumapp.common.result.AjaxResult;
 import com.liumapp.common.security.auth.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +38,7 @@ public class AdminController {
 
     @PostMapping("/add")
     @ResponseBody()
-    public AjaxResult add(@Validated(UserForm.CreateUser.class) UserForm userForm, BindingResult result) {
+    public AjaxResult add(@Validated(CreateUser.class) UserForm userForm, BindingResult result) {
         AjaxResult rst = new AjaxResult();
         if(result.hasErrors()) {
             rst.setCode("error");
@@ -76,7 +78,7 @@ public class AdminController {
 
     @PostMapping("/edit/{id}")
     @ResponseBody()
-    public AjaxResult edit(@PathVariable(name="id") Long id, @Validated(UserForm.EditUser.class) UserForm userForm, BindingResult result) {
+    public AjaxResult edit(@PathVariable(name="id") Long id,@Validated(EditUser.class) UserForm userForm, BindingResult result) {
         AjaxResult rst = new AjaxResult();
         if(result.hasErrors()) {
             rst.setCode("error");
@@ -136,7 +138,7 @@ public class AdminController {
     }
 
     @GetMapping("/list")
-    public String list(ModelMap model, @RequestParam Map<String, Object> params){
+    public String list(ModelMap model,@RequestParam Map<String, Object> params){
         Page<SysAdmin> users = (Page<SysAdmin>) adminService.searchAll(params);
         model.addAttribute("params",params);
         model.addAttribute("users",users);

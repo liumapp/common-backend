@@ -21,7 +21,7 @@ import java.util.Map;
  * home-page:http://www.liumapp.com
  */
 @Configuration
-@MapperScan("cc.huluwa.admin.shiro.dao")
+@MapperScan("com.liumapp.admin.shiro.dao")
 public class ShiroConfig extends ShiroConfiguration {
 
     /**
