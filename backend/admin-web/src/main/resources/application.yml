@@ -1,0 +1,50 @@
+spring:
+  devtools:
+    restart:
+      exclude:  static/**,public/**
+      enabled:  true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #-- Druid config
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvicationRunsMillis: 60000
+    minEvicationRunsMillis: 3000
+    validationQuery: SELECT 1 FROM DUAL
+    helperDialect: mysql
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat, wall,log4j
+    #-- end config
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/common_backend?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: adminadmin
+
+  thymeleaf:
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html; charset=utf-8
+    cache: false
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mappers/*Dao.xml
+  #type-aliases-package: org.zb.shiro
+
+pagehelper:
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+custom:
+  shiro:
+    loginUrl: /login
+    successUrl: /index
+    permitAll:  /rest/**,/bbs**
+    deniedPage: /deny

@@ -14,7 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * E-mail:liumapp.com@gmail.com
  * home-page:http://www.liumapp.com
  */
-
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
     @Autowired
@@ -38,4 +37,5 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         }
         return match;
     }
+
 }
