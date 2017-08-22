@@ -40,7 +40,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid LoginForm loginForm, BindingResult error) {
+    public String login(@Valid LoginForm loginForm,BindingResult error) {
 
         if (error.hasErrors()) {
             return "login";

@@ -38,7 +38,7 @@ public class SysAdminServiceImpl implements SysAdminService {
 
     public int saveUser(SysAdmin user){
 
-        return adminMapper.insert(user);
+        return adminMapper.insertSelective(user);
     }
 
     public int updateUser(SysAdmin user) {
