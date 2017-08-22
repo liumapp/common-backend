@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header::header(title='管理员-列表')"></head>
+<body>
+	<div class="x-nav">
+		<span class="layui-breadcrumb"> <a><cite>首页</cite></a> <a><cite>管理员管理</cite></a>
+			<a th:href="@{/role/list}">角色列表</a>
+		</span> 
+		<a class="layui-btn layui-btn-small"
+			style="line-height: 1.6em; margin-top: 3px; float: right"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="layui-icon" style="line-height: 30px">ဂ</i>
+			</a>
+	</div>
+	<div class="x-body">
+		<form class="layui-form x-center"  th:action="@{/role/list}" style="width: 80%">
+			<div class="layui-form-pane" style="margin-top: 15px;">
+				<div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" placeholder="请输入角色名"
+                            autocomplete="off" class="layui-input" 
+                            th:value="${params} ? ${params['name']} : ''" />
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" placeholder="请输入角色类型"
+                            autocomplete="off" class="layui-input" 
+                            th:value="${params} ? ${params['type']} : ''" />
+                    </div>
+					<div class="layui-input-inline" style="width: 80px">
+						<button class="layui-btn" lay-submit="" lay-filter="sreach">
+							<i class="layui-icon">&#xe615;</i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<xblock>
+		<button class="layui-btn layui-btn-danger" onclick="delAll()">
+			<i class="layui-icon">&#xe640;</i>批量删除
+		</button>
+		<button class="layui-btn"
+			th:onclick="|x_admin_show('添加角色','@{/role/add}','600','400')|">
+			<i class="layui-icon">&#xe608;</i>添加
+		</button>
+		<span class="x-right" style="line-height: 40px"
+			th:text="'共有数据：'+${totalRecords}+' 条'">共有数据：88 条</span></xblock>
+			<div class="layui-form">
+		<table class="layui-table">
+			<thead>
+				<tr>
+					<th width="10"><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"/></th>
+					<th>ID</th>
+					<th>角色名</th>
+					<th>角色类型</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="role: ${roles}">
+					<td><input type="checkbox" th:value="${role.id}" name="role[]" lay-skin="primary" /></td>
+					<td th:text="${role.id}">1</td>
+					<td th:text="${role.name}"></td>
+					<td th:text="${role.type}"></td>
+					<td class="td-manage">
+					<a title="编辑" href="javascript:;"
+						th:onclick="|x_admin_show('编辑','@{/role/edit/{id}(id=${role.id})}','600','300')|"
+						class="ml-5" style="text-decoration: none"> <i
+							class="layui-icon">&#xe642;</i>
+					</a> 
+					<a title="删除" href="javascript:;"
+						th:onclick="|role_del(this,'${role.id}')|"
+						style="text-decoration: none"> <i class="layui-icon">&#xe640;</i>
+					</a>
+					</td>
+				</tr>
+			</tbody>
+		</table></div>
+
+		<div id="page"></div>
+	</div>
+	<th:block th:include="common/script::script"></th:block>
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    	    layui.use([ 'laydate', 'element', 'laypage', 'layer','form'], function() {
+            $ = layui.jquery;//jquery
+            lement = layui.element();//面包导航
+            laypage = layui.laypage;//分页
+            layer = layui.layer;//弹出层
+            form = layui.form();
+            //全选
+            form.on('checkbox(allChoose)', function(data){
+              var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+              child.each(function(index, item){
+                item.checked = data.elem.checked;
+              });
+              form.render('checkbox');
+            });
+            
+            //以上模块根据需要引入
+
+            laypage({
+                cont : 'page',
+                pages : [[${totalPages}]],
+                first : 1,
+                last : [[${totalPages}]],
+                prev : '<em>&lt;</em>',
+                next : '<em>&gt;</em>'
+            });
+
+        });
+    
+   	  
+        
+       function initData(){
+    	   var data = {};
+           var value = $('meta[name="_csrf"]').attr("content");
+           var name = $('meta[name="_csrf_header"]').attr("content");
+           data[name] = value;
+           return data;
+       }
+
+
+       //批量删除提交
+       function delAll() {
+    	   var data = initData();
+           data.ids = [];
+           $('input[name="role[]"]:checked').each(function(i,box){
+        	   data.ids.push(box.value);
+           });
+           layer.confirm('确认要删除吗？', function(index) {
+               $.post([[@{/role/batch-delete}]],data,function(response){
+                   if(response <= 0 ) {
+                	 //捉到所有被选中的，发异步进行删除
+                       layer.msg('更新失败！', {
+                           icon : 1
+                       });
+                   } else {
+                	 //捉到所有被选中的，发异步进行删除
+                       layer.msg('删除成功!', {
+                           icon : 1
+                       });
+                       location.replace(location.href);
+                   }
+                   
+               });
+           });
+       }
+
+        /*删除*/
+        function role_del(obj, id) {
+            layer.confirm('确认要删除吗？', function(index) {
+            	var data = initData();
+                data.id = id;
+            	$.post([[@{/role/delete}]],data,function(response){
+            		var msg = '已删除!';
+                    if(response > 0 ) {
+                    	//发异步删除数据
+                        $(obj).parents("tr").remove();
+                    } else {
+                        msg = '删除失败！';
+                    }
+                    layer.msg(msg, {
+                        icon : 1,
+                        time : 1000
+                    });
+            	});
+            });
+        }
+    /*]]>*/
+	</script>
+</body>
+</html>

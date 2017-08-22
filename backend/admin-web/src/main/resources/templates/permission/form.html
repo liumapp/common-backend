@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body th:fragment="form(action,buttonName)">
+        <form class="layui-form" th:object="${sysPermission}" th:action="${action}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}" />
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label"> <span
+                    class="x-red">*</span>权限名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" th:field="*{name}" required="" 
+                    lay-verify="required" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>权限名
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_type" class="layui-form-label"> <span
+                    class="x-red">*</span>实质权限
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_type" th:field="*{code}" required=""
+                        lay-verify="type" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>实质权限
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label"> <span
+                    class="x-red">*</span>访问路径
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" th:field="*{url}" required="" 
+                    lay-verify="required" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>访问路径
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label"> <span
+                    class="x-red">*</span>是否显示
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" th:field="*{generatemenu}" required="" 
+                    lay-verify="required" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>1:为显示 0:为隐藏
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label"> <span
+                    ></span>序号
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" th:field="*{zindex}" 
+                     autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label"> </label>
+                <button class="layui-btn" th:text="${buttonName}" lay-filter="submit" lay-submit="">
+                    增加</button>
+            </div>
+        </form>
+    <th:block th:include="common/script::script"></th:block>
+</body>
+</html>

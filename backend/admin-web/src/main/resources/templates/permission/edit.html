@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header::header(title='编辑角色')"></head>
+<body>
+    <div class="x-body" th:include="permission/form::form(action=@{/permission/edit/{id}(id=${sysPermission.id})},buttonName='编辑')"></div>
+<script th:inline="javascript">
+   /*<![CDATA[*/
+       layui.use(['form','layer'], function(){
+         $ = layui.jquery;
+         var form = layui.form(), 
+         layer = layui.layer;
+       
+         //监听提交
+         form.on('submit(submit)', function(data){
+           $.post([[(@{/permission/edit/{id}(id=${sysPermission.id})})]],data.field,function(response){
+               if (response.code == 'success') {
+                  layer.alert(response.message, {icon: 6},function () {
+                      // 获得frame索引
+                      var index = parent.layer.getFrameIndex(window.name);
+                      //关闭当前frame
+                      parent.layer.close(index);
+                  }); 
+               } else {
+                   layer.alert(response.message, {icon: 6});
+               }
+           });
+           return false;
+         });
+         
+         
+       });
+   /*]]>*/
+</script>
+</body>
+</html>

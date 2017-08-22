@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common/header::header(title='添加用户')"></head>
+<body>
+	<div class="x-body" th:include="user/form::form(action=@{/user/add},buttonName='添加')"></div>
+<script th:inline="javascript">
+   /*<![CDATA[*/
+       layui.use(['form','layer'], function(){
+         $ = layui.jquery;
+         var form = layui.form(), 
+         layer = layui.layer;
+       
+         //自定义验证规则
+         form.verify({
+           username: function(value){
+             if(value.length < 5){
+               return '昵称至少得5个字符啊';
+             }
+           }
+           ,password: [/(.+){6,12}$/, '密码必须6到12位']
+           ,confirm: function(value){
+               if($('#L_pass').val()!=$('#L_repass').val()){
+                   return '两次密码不一致';
+               }
+           }
+         });
+
+         //监听提交
+         form.on('submit(submit)', function(data){
+           $.post([[(@{/user/add})]],data.field,function(response){
+               if (response.code == 'success') {
+                  layer.alert(response.message, {icon: 6},function () {
+                      // 获得frame索引
+                      var index = parent.layer.getFrameIndex(window.name);
+                      //关闭当前frame
+                      parent.layer.close(index);
+                  }); 
+               } else {
+                   layer.alert(response.message, {icon: 6});
+               }
+           });
+           return false;
+         });
+         
+         
+       });
+   /*]]>*/
+</script>
+</body>
+</html>

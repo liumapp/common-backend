@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body th:fragment="form(action,buttonName)">
+        <form class="layui-form" th:object="${sysRole}" th:action="${action}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}" />
+            <div class="layui-form-item">
+                <label for="name" class="layui-form-label"> <span
+                    class="x-red">*</span>角色名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" th:field="*{name}" required="" 
+                    lay-verify="required" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>唯一的角色名
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_type" class="layui-form-label"> <span
+                    class="x-red">*</span>角色类型
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_type" th:field="*{type}" required=""
+                        lay-verify="type" autocomplete="off" class="layui-input" />
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label"> </label>
+                <button class="layui-btn" th:text="${buttonName}" lay-filter="submit" lay-submit="">
+                    增加</button>
+            </div>
+        </form>
+    <th:block th:include="common/script::script"></th:block>
+</body>
+</html>
