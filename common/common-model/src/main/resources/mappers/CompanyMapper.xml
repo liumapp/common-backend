@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liumapp.common.model.mapper.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.liumapp.common.model.domain.Company">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="provinceCode" jdbcType="VARCHAR" property="provincecode" />
+    <result column="cityCode" jdbcType="VARCHAR" property="citycode" />
+    <result column="areaCode" jdbcType="VARCHAR" property="areacode" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="licensePhoto" jdbcType="VARCHAR" property="licensephoto" />
+    <result column="checkPhoto" jdbcType="VARCHAR" property="checkphoto" />
+    <result column="checkTemplate" jdbcType="VARCHAR" property="checktemplate" />
+    <result column="createdAt" jdbcType="TIMESTAMP" property="createdat" />
+    <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedat" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, userId, name, code, provinceCode, cityCode, areaCode, address, licensePhoto, 
+    checkPhoto, checkTemplate, createdAt, updatedAt
+  </sql>
+  <select id="selectByExample" parameterType="com.liumapp.common.model.domain.CompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from company
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from company
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.liumapp.common.model.domain.CompanyExample">
+    delete from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.liumapp.common.model.domain.Company">
+    insert into company (id, userId, name, 
+      code, provinceCode, cityCode, 
+      areaCode, address, licensePhoto, 
+      checkPhoto, checkTemplate, createdAt, 
+      updatedAt)
+    values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{provincecode,jdbcType=VARCHAR}, #{citycode,jdbcType=VARCHAR}, 
+      #{areacode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{licensephoto,jdbcType=VARCHAR}, 
+      #{checkphoto,jdbcType=VARCHAR}, #{checktemplate,jdbcType=VARCHAR}, #{createdat,jdbcType=TIMESTAMP}, 
+      #{updatedat,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.liumapp.common.model.domain.Company">
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="provincecode != null">
+        provinceCode,
+      </if>
+      <if test="citycode != null">
+        cityCode,
+      </if>
+      <if test="areacode != null">
+        areaCode,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="licensephoto != null">
+        licensePhoto,
+      </if>
+      <if test="checkphoto != null">
+        checkPhoto,
+      </if>
+      <if test="checktemplate != null">
+        checkTemplate,
+      </if>
+      <if test="createdat != null">
+        createdAt,
+      </if>
+      <if test="updatedat != null">
+        updatedAt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null">
+        #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null">
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="licensephoto != null">
+        #{licensephoto,jdbcType=VARCHAR},
+      </if>
+      <if test="checkphoto != null">
+        #{checkphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="checktemplate != null">
+        #{checktemplate,jdbcType=VARCHAR},
+      </if>
+      <if test="createdat != null">
+        #{createdat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedat != null">
+        #{updatedat,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.liumapp.common.model.domain.CompanyExample" resultType="java.lang.Long">
+    select count(*) from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update company
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincecode != null">
+        provinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citycode != null">
+        cityCode = #{record.citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areacode != null">
+        areaCode = #{record.areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licensephoto != null">
+        licensePhoto = #{record.licensephoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkphoto != null">
+        checkPhoto = #{record.checkphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checktemplate != null">
+        checkTemplate = #{record.checktemplate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdat != null">
+        createdAt = #{record.createdat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedat != null">
+        updatedAt = #{record.updatedat,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update company
+    set id = #{record.id,jdbcType=BIGINT},
+      userId = #{record.userid,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      provinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      cityCode = #{record.citycode,jdbcType=VARCHAR},
+      areaCode = #{record.areacode,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      licensePhoto = #{record.licensephoto,jdbcType=VARCHAR},
+      checkPhoto = #{record.checkphoto,jdbcType=VARCHAR},
+      checkTemplate = #{record.checktemplate,jdbcType=VARCHAR},
+      createdAt = #{record.createdat,jdbcType=TIMESTAMP},
+      updatedAt = #{record.updatedat,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liumapp.common.model.domain.Company">
+    update company
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null">
+        provinceCode = #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        cityCode = #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null">
+        areaCode = #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="licensephoto != null">
+        licensePhoto = #{licensephoto,jdbcType=VARCHAR},
+      </if>
+      <if test="checkphoto != null">
+        checkPhoto = #{checkphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="checktemplate != null">
+        checkTemplate = #{checktemplate,jdbcType=VARCHAR},
+      </if>
+      <if test="createdat != null">
+        createdAt = #{createdat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedat != null">
+        updatedAt = #{updatedat,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liumapp.common.model.domain.Company">
+    update company
+    set userId = #{userid,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      provinceCode = #{provincecode,jdbcType=VARCHAR},
+      cityCode = #{citycode,jdbcType=VARCHAR},
+      areaCode = #{areacode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      licensePhoto = #{licensephoto,jdbcType=VARCHAR},
+      checkPhoto = #{checkphoto,jdbcType=VARCHAR},
+      checkTemplate = #{checktemplate,jdbcType=VARCHAR},
+      createdAt = #{createdat,jdbcType=TIMESTAMP},
+      updatedAt = #{updatedat,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

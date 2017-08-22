@@ -41,9 +41,9 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `common_backend`.`common_backend`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `common_backend`.`common_backend` ;
+DROP TABLE IF EXISTS `common_backend`.`contract` ;
 
-CREATE TABLE IF NOT EXISTS `common_backend`.`common_backend` (
+CREATE TABLE IF NOT EXISTS `common_backend`.`contract` (
   `id` BIGINT(20) NOT NULL,
   `userId` BIGINT(20) NOT NULL,
   `common_backendNo` VARCHAR(128) NULL COMMENT '合同编号',
@@ -83,7 +83,7 @@ COMMENT = '签名人';
 -- -----------------------------------------------------
 -- Table `common_backend`.`common_backend_doc`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `common_backend`.`common_backend_doc` ;
+DROP TABLE IF EXISTS `common_backend`.`contract_doc` ;
 
 CREATE TABLE IF NOT EXISTS `common_backend`.`contract_doc` (
   `id` BIGINT(20) NOT NULL,
@@ -181,7 +181,7 @@ COMMENT = '用户的签名或者公章';
 -- -----------------------------------------------------
 -- Table `common_backend`.`common_backend_sign_code`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `common_backend`.`common_backend_sign_code` ;
+DROP TABLE IF EXISTS `common_backend`.`contract_sign_code` ;
 
 CREATE TABLE IF NOT EXISTS `common_backend`.`contract_sign_code` (
   `common_backendId` BIGINT(20) UNSIGNED NOT NULL,
