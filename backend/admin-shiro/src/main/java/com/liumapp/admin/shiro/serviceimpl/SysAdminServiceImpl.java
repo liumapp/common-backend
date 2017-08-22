@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class SysAdminServiceImpl implements SysAdminService{
+public class SysAdminServiceImpl implements SysAdminService {
 
     @Autowired
     private SysAdminMapper adminMapper;
