@@ -11,6 +11,4 @@
   	<module>admin-shiro</module>
   	<module>admin-web</module>
   </modules>
-
-
 </project>
