@@ -9,5 +9,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>frontend-web</module>
+        <module>frontend-shiro</module>
+        <module>frontend-api</module>
+        <module>frontend-theme</module>
     </modules>
 </project>

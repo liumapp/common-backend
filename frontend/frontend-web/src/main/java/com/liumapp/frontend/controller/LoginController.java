@@ -2,7 +2,7 @@ package com.liumapp.frontend.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * Created by liumapp on 8/23/17.
@@ -10,17 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
  * home-page:http://www.liumapp.com
  */
 @Controller
-public class IndexController {
+public class LoginController {
 
-    @GetMapping("/")
-    public String index(){
-        return "index";
-    }
 
-    @GetMapping("/welcome")
-    public String welcome()
-    {
-        return "welcome";
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
 }
